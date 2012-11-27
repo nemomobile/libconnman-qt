@@ -7,7 +7,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
+ 
+#include <QtDBus>
+#include "technology.h"
 #include "networktechnology.h"
 #include "debug.h"
 
