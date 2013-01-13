@@ -8,9 +8,10 @@
  *
  */
 
+#include <QDebug>
+
 #include "technology_interface.h"
 #include "networktechnology.h"
-#include "debug.h"
 
 QT_BEGIN_NAMESPACE_CONNMAN
 
@@ -29,7 +30,7 @@ NetworkTechnology::NetworkTechnology(const QString &path, const QVariantMap &pro
                                                      path, QDBusConnection::systemBus(), this);
 
     if (!m_technology->isValid()) {
-        pr_dbg() << "Invalid technology: " << path;
+        qDebug() << "Invalid technology: " << path;
         //throw -1; // FIXME
     }
 
@@ -100,7 +101,7 @@ void NetworkTechnology::propertyChanged(const QString &name, const QDBusVariant 
 
     Q_ASSERT(m_technology);
 
-    pr_dbg() << m_technology->path() << "property" << name << "changed from"
+    qDebug() << m_technology->path() << "property" << name << "changed from"
              << m_propertiesCache[name].toString() << "to" << tmp.toString();
 
     m_propertiesCache[name] = tmp;
@@ -116,7 +117,7 @@ void NetworkTechnology::scanReply(QDBusPendingCallWatcher *call)
 {
     Q_UNUSED(call);
 
-    pr_dbg() << "Scan Finished";
+    qDebug() << "Scan Finished";
 
     emit scanFinished();
 }

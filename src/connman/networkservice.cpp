@@ -8,9 +8,10 @@
  *
  */
 
+#include <QDebug>
+
 #include "service_interface.h"
 #include "networkservice.h"
-#include "debug.h"
 
 QT_BEGIN_NAMESPACE_CONNMAN
 
@@ -66,7 +67,7 @@ NetworkService::NetworkService(const QString &path, const QVariantMap &propertie
                                                m_path, QDBusConnection::systemBus(), this);
 
     if (!m_service->isValid()) {
-        pr_dbg() << "Invalid service: " << m_path;
+        qDebug() << "Invalid service: " << m_path;
         //throw -1; // FIXME
     }
 
@@ -231,10 +232,10 @@ void NetworkService::handleConnectReply(QDBusPendingCallWatcher *call)
     QDBusPendingReply<> reply = *call;
 
     if (!reply.isFinished()) {
-       pr_dbg() << "connect() not finished yet";
+       qDebug() << "connect() not finished yet";
     }
     if (reply.isError()) {
-        pr_dbg() << "Reply from service.connect(): " << reply.error().message();
+        qDebug() << "Reply from service.connect(): " << reply.error().message();
         emit connectRequestFailed(reply.error().message());
     }
 }
@@ -245,7 +246,7 @@ void NetworkService::updateProperty(const QString &name, const QDBusVariant &val
 
     Q_ASSERT(m_service);
 
-    pr_dbg() << m_service->path() << "property" << name << "changed from"
+    qDebug() << m_service->path() << "property" << name << "changed from"
              << m_propertiesCache[name].toString() << "to" << tmp.toString();
 
     m_propertiesCache[name] = tmp;

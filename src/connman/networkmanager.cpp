@@ -8,9 +8,10 @@
  *
  */
 
+#include <QDebug>
+
 #include "manager.h"
 #include "networkmanager.h"
-#include "debug.h"
 
 QT_BEGIN_NAMESPACE_CONNMAN
 
@@ -66,7 +67,7 @@ void NetworkManager::connectToConnman()
 
     if (!m_manager->isValid()) {
 
-        pr_dbg() << "D-Bus net.connman.Manager object is invalid. Connman may not be running or is invalid.";
+        qDebug() << "D-Bus net.connman.Manager object is invalid. Connman may not be running or is invalid.";
 
         delete m_manager;
         m_manager = NULL;
@@ -99,7 +100,7 @@ void NetworkManager::connectToConnman()
         if(!m_available)
             emit availabilityChanged(m_available = true);
 
-        pr_dbg() << "Connected";
+        qDebug() << "Connected";
     }
 }
 
@@ -128,12 +129,12 @@ void NetworkManager::getPropertiesReply(QDBusPendingCallWatcher *call)
 {
     Q_ASSERT(call);
 
-    pr_dbg() << "Got reply with manager's properties";
+    qDebug() << "Got reply with manager's properties";
 
     QDBusPendingReply<QVariantMap> reply = *call;
     if (reply.isError()) {
 
-        pr_dbg() << "Error getPropertiesReply: " << reply.error().message();
+        qDebug() << "Error getPropertiesReply: " << reply.error().message();
 
         disconnectFromConnman();
 
@@ -143,9 +144,9 @@ void NetworkManager::getPropertiesReply(QDBusPendingCallWatcher *call)
 
         m_propertiesCache = reply.value();
 
-        pr_dbg() << "Initial Manager's properties";
-        pr_dbg() << "\tState: " << m_propertiesCache[State].toString();
-        pr_dbg() << "\tOfflineMode: " << m_propertiesCache[OfflineMode].toString();
+        qDebug() << "Initial Manager's properties";
+        qDebug() << "\tState: " << m_propertiesCache[State].toString();
+        qDebug() << "\tOfflineMode: " << m_propertiesCache[OfflineMode].toString();
 
         emit stateChanged(m_propertiesCache[State].toString());
 
@@ -160,12 +161,12 @@ void NetworkManager::getTechnologiesReply(QDBusPendingCallWatcher *call)
 {
     Q_ASSERT(call);
 
-    pr_dbg() << "Got reply with technolgies";
+    qDebug() << "Got reply with technolgies";
 
     QDBusPendingReply<ConnmanObjectList> reply = *call;
     if (reply.isError()) {
 
-        pr_dbg() << "Error getTechnologiesReply:" << reply.error().message();
+        qDebug() << "Error getTechnologiesReply:" << reply.error().message();
 
         disconnectFromConnman();
 
@@ -182,9 +183,9 @@ void NetworkManager::getTechnologiesReply(QDBusPendingCallWatcher *call)
 
             m_technologiesCache.insert(tech->type(), tech);
 
-            pr_dbg() << "Technology: " << tech->type();
-            pr_dbg() << "\tConnected:" << tech->connected();
-            pr_dbg() << "\tPowered:" << tech->powered();
+            qDebug() << "Technology: " << tech->type();
+            qDebug() << "\tConnected:" << tech->connected();
+            qDebug() << "\tPowered:" << tech->powered();
         }
 
         connect(m_manager,
@@ -205,12 +206,12 @@ void NetworkManager::getServicesReply(QDBusPendingCallWatcher *call)
 {
     Q_ASSERT(call);
 
-    pr_dbg() << "Got reply with services";
+    qDebug() << "Got reply with services";
 
     QDBusPendingReply<ConnmanObjectList> reply = *call;
     if (reply.isError()) {
 
-        pr_dbg() << "Error getServicesReply:" << reply.error().message();
+        qDebug() << "Error getServicesReply:" << reply.error().message();
 
         disconnectFromConnman();
 
@@ -235,7 +236,7 @@ void NetworkManager::getServicesReply(QDBusPendingCallWatcher *call)
             m_servicesCache.insert(obj.objpath.path(), service);
             m_servicesOrder.push_back(service);
 
-            pr_dbg() << "From Service: " << obj.objpath.path();
+            qDebug() << "From Service: " << obj.objpath.path();
 
             // by connman's documentation, first service is always
             // the default route's one
@@ -259,10 +260,10 @@ void NetworkManager::getServicesReply(QDBusPendingCallWatcher *call)
 
 void NetworkManager::updateServices(const ConnmanObjectList &changed, const QList<QDBusObjectPath> &removed)
 {
-    pr_dbg() << "Number of services that changed: " << changed.size();
+    qDebug() << "Number of services that changed: " << changed.size();
 
     foreach (QDBusObjectPath obj, removed) {
-        pr_dbg() << "Removing " << obj.path();
+        qDebug() << "Removing " << obj.path();
         m_servicesCache.value(obj.path())->deleteLater();
         m_servicesCache.remove(obj.path());
     }
@@ -281,7 +282,7 @@ void NetworkManager::updateServices(const ConnmanObjectList &changed, const QLis
             service = new NetworkService(connmanobj.objpath.path(),
                     connmanobj.properties, this);
             m_servicesCache.insert(connmanobj.objpath.path(), service);
-            pr_dbg() << "Added service " << connmanobj.objpath.path();
+            qDebug() << "Added service " << connmanobj.objpath.path();
         } else {
             service = m_servicesCache.value(connmanobj.objpath.path());
         }
@@ -311,7 +312,7 @@ void NetworkManager::propertyChanged(const QString &name,
 {
     QVariant tmp = value.variant();
 
-    pr_dbg() << "Manager's property" << name << "changed from"
+    qDebug() << "Manager's property" << name << "changed from"
              << m_propertiesCache[name].toString() << "to" << tmp.toString();
 
     m_propertiesCache[name] = tmp;
@@ -332,9 +333,9 @@ void NetworkManager::technologyAdded(const QDBusObjectPath &technology,
 
     m_technologiesCache.insert(tech->type(), tech);
 
-    pr_dbg() << "Technology: " << tech->type();
-    pr_dbg() << "\tConnected:" << tech->connected();
-    pr_dbg() << "\tPowered:" << tech->powered();
+    qDebug() << "Technology: " << tech->type();
+    qDebug() << "\tConnected:" << tech->connected();
+    qDebug() << "\tPowered:" << tech->powered();
 
     emit technologiesChanged();
 }
@@ -347,7 +348,7 @@ void NetworkManager::technologyRemoved(const QDBusObjectPath &technology)
     foreach (net, m_technologiesCache) {
         if (net->objPath() == technology.path()) {
 
-            pr_dbg() << "Removing " << net->objPath();
+            qDebug() << "Removing " << net->objPath();
             m_technologiesCache.remove(net->type());
             net->deleteLater();
 
@@ -390,7 +391,7 @@ NetworkTechnology* NetworkManager::getTechnology(const QString &type) const
     if (m_technologiesCache.contains(type))
         return m_technologiesCache.value(type);
     else {
-        pr_dbg() << "Technology " << type << " doesn't exist";
+        qDebug() << "Technology " << type << " doesn't exist";
         return NULL;
     }
 }

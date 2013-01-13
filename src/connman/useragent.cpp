@@ -7,7 +7,8 @@
  *
  */
 
-#include <debug.h>
+#include <QDebug>
+
 #include "useragent.h"
 
 #define AGENT_PATH QLatin1String("/ConnectivityUserAgent")
@@ -101,20 +102,20 @@ void AgentAdaptor::Release() {}
 
 void AgentAdaptor::ReportError(const QDBusObjectPath &service_path, const QString &error)
 {
-    pr_dbg() << "From " << service_path.path() << " got this error:\n" << error;
+    qDebug() << "From " << service_path.path() << " got this error:\n" << error;
     m_userAgent->reportError(error);
 }
 
 void AgentAdaptor::RequestBrowser(const QDBusObjectPath &service_path, const QString &url)
 {
-    pr_dbg() << "Service " << service_path.path() << " wants browser to open hotspot's url " << url;
+    qDebug() << "Service " << service_path.path() << " wants browser to open hotspot's url " << url;
 }
 
 void AgentAdaptor::RequestInput(const QDBusObjectPath &service_path,
                                        const QVariantMap &fields,
                                        const QDBusMessage &message)
 {
-    pr_dbg() << "Service " << service_path.path() << " wants user input";
+    qDebug() << "Service " << service_path.path() << " wants user input";
 
     QVariantMap json;
     foreach (const QString &key, fields.keys()){
@@ -135,7 +136,7 @@ void AgentAdaptor::RequestInput(const QDBusObjectPath &service_path,
 
 void AgentAdaptor::Cancel()
 {
-    pr_dbg() << "WARNING: request to agent got canceled";
+    qDebug() << "WARNING: request to agent got canceled";
     m_userAgent->cancelUserInput();
 }
 

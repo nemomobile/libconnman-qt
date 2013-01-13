@@ -16,7 +16,6 @@ HEADERS += \
     commondbustypes.h \
     clockproxy.h \
     clockmodel.h \
-    debug.h \
     useragent.h \
     session.h \
     sessionagent.h \
@@ -31,7 +30,6 @@ SOURCES += \
     clockproxy.cpp \
     clockmodel.cpp \
     commondbustypes.cpp \
-    debug.cpp \
     useragent.cpp \
     session.cpp \
     sessionagent.cpp \

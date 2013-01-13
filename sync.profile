@@ -13,7 +13,6 @@
     "clockproxy.h" => "ClockProxy",
     "commondbustypes.h" => "CommonDBusTypes",
     "counter.h" => "Counter",
-    "debug.h" => "Debug",
     "manager.h" => "Manager",
     "networkmanager.h" => "NetworkManager",
     "networkservice.h" => "NetworkService",
