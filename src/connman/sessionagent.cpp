@@ -27,6 +27,8 @@ Example:
 
   */
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 SessionAgent::SessionAgent(const QString &path, QObject* parent) :
     QObject(parent),
     agentPath(path),
@@ -114,3 +116,5 @@ void SessionNotificationAdaptor::Update(const QVariantMap &settings)
 {
     m_sessionAgent->update(settings);
 }
+
+QT_END_NAMESPACE_CONNMAN

@@ -10,6 +10,8 @@
 #include "networksession.h"
 #include "sessionagent.h"
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 NetworkSession::NetworkSession(QObject *parent) :
     QObject(parent),
     m_sessionAgent(0),
@@ -116,3 +118,5 @@ void NetworkSession::setPath(const QString &path)
 {
     m_path = path;
 }
+
+QT_END_NAMESPACE_CONNMAN

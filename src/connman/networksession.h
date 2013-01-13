@@ -7,16 +7,19 @@
  *
  */
 
-
 #ifndef SESSIONSERVICE_H
 #define SESSIONSERVICE_H
 
 #include <QObject>
 #include <QtDBus>
 
+#include <QtAddOnConnman/connman_global.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
+
 class SessionAgent;
 
-class NetworkSession : public QObject
+class Q_CONNMAN_EXPORT NetworkSession : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString state READ state)
@@ -51,7 +54,6 @@ public:
     void setConnectionType(const QString &type);
 
 signals:
-
     void allowedBearersChanged(const QStringList &bearers);
     void connectionTypeChanged(const QString &type);
     void settingsChanged(const QVariantMap &settings);
@@ -69,5 +71,7 @@ private:
     QVariantMap settingsMap;
     QString m_path;
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif // SESSIONSERVICE_H

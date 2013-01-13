@@ -12,6 +12,8 @@
 #include "networkservice.h"
 #include "debug.h"
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 /*
  * JS returns arrays as QVariantList or a(v) in terms of D-Bus,
  * but ConnMan requires some properties to be lists of strings
@@ -286,3 +288,5 @@ void NetworkService::updateProperty(const QString &name, const QDBusVariant &val
         emit ethernetChanged(qdbus_cast<QVariantMap>(m_propertiesCache.value(Ethernet)));
     }
 }
+
+QT_END_NAMESPACE_CONNMAN

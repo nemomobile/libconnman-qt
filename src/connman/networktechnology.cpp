@@ -12,6 +12,8 @@
 #include "networktechnology.h"
 #include "debug.h"
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 const QLatin1String NetworkTechnology::Name("Name");
 const QLatin1String NetworkTechnology::Type("Type");
 const QLatin1String NetworkTechnology::Powered("Powered");
@@ -118,3 +120,5 @@ void NetworkTechnology::scanReply(QDBusPendingCallWatcher *call)
 
     emit scanFinished();
 }
+
+QT_END_NAMESPACE_CONNMAN

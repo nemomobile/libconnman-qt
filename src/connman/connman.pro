@@ -5,10 +5,11 @@ QT = core dbus
 
 load(qt_module)
 
-DEFINES += QT_CONNMAN_LIB
 DBUS_INTERFACES = ../../data/interfaces/service.xml ../../data/interfaces/technology.xml
 
-HEADERS += manager.h \
+HEADERS += \
+    connman_global.h \
+    manager.h \
     networkmanager.h \
     networktechnology.h \
     networkservice.h \

@@ -12,9 +12,12 @@
 #define NETWORKINGMODEL_H
 
 #include <QDBusAbstractAdaptor>
-#include <networkmanager.h>
-#include <networktechnology.h>
-#include <networkservice.h>
+
+#include <QtAddOnConnman/networkmanager.h>
+#include <QtAddOnConnman/networktechnology.h>
+#include <QtAddOnConnman/networkservice.h>
+
+QT_USE_NAMESPACE_CONNMAN
 
 struct ServiceReqData
 {
@@ -27,7 +30,7 @@ struct ServiceReqData
  * WARNING: this class is going to be deprecated. Use TechnologyModel and
  *          UserAgent classes instead.
  */
-class NetworkingModel : public QObject
+class Q_CONNMAN_EXPORT NetworkingModel : public QObject
 {
     Q_OBJECT;
 
@@ -74,7 +77,7 @@ private:
     Q_DISABLE_COPY(NetworkingModel);
 };
 
-class UserInputAgent : public QDBusAbstractAdaptor
+class Q_CONNMAN_EXPORT UserInputAgent : public QDBusAbstractAdaptor
 {
     Q_OBJECT;
     Q_CLASSINFO("D-Bus Interface", "net.connman.Agent");

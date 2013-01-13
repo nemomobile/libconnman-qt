@@ -10,9 +10,12 @@
 #ifndef CLOCKMODEL_H
 #define CLOCKMODEL_H
 
-#include "clockproxy.h"
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/clockproxy.h>
 
-class ClockModel : public QObject {
+QT_BEGIN_NAMESPACE_CONNMAN
+
+class Q_CONNMAN_EXPORT ClockModel : public QObject {
     Q_OBJECT;
 
     Q_PROPERTY(QString timezone READ timezone WRITE setTimezone NOTIFY timezoneChanged);
@@ -61,4 +64,6 @@ private:
     Q_DISABLE_COPY(ClockModel);
 };
 
-#endif
+QT_END_NAMESPACE_CONNMAN
+
+#endif // CLOCKMODEL_H

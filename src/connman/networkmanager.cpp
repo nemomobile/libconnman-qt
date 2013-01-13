@@ -12,6 +12,8 @@
 #include "networkmanager.h"
 #include "debug.h"
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 static NetworkManager* staticInstance = NULL;
 
 NetworkManager* NetworkManagerFactory::createInstance()
@@ -39,7 +41,6 @@ NetworkManager::NetworkManager(QObject* parent)
     m_available(false)
 {
     registerCommonDataTypes();
-
 
     watcher = new QDBusServiceWatcher(QLatin1String("net.connman"), QDBusConnection::systemBus(),
             QDBusServiceWatcher::WatchForRegistration |
@@ -481,3 +482,5 @@ bool NetworkManager::sessionMode() const
 {
     return m_propertiesCache[SessionMode].toBool();
 }
+
+QT_END_NAMESPACE_CONNMAN

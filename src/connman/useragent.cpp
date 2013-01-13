@@ -12,6 +12,8 @@
 
 #define AGENT_PATH QLatin1String("/ConnectivityUserAgent")
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 UserAgent::UserAgent(QObject* parent) :
     QObject(parent),
     m_req_data(NULL),
@@ -136,3 +138,5 @@ void AgentAdaptor::Cancel()
     pr_dbg() << "WARNING: request to agent got canceled";
     m_userAgent->cancelUserInput();
 }
+
+QT_END_NAMESPACE_CONNMAN

@@ -14,14 +14,17 @@
 #define TECHNOLOGYMODEL_H
 
 #include <QAbstractListModel>
-#include <networkmanager.h>
-#include <networktechnology.h>
-#include <networkservice.h>
+
+#include <QtAddOnConnman/networkmanager.h>
+#include <QtAddOnConnman/networktechnology.h>
+#include <QtAddOnConnman/networkservice.h>
+
+QT_USE_NAMESPACE_CONNMAN
 
 /*
  * TechnologyModel is a list model specific to a certain technology (wifi by default).
  */
-class TechnologyModel : public QAbstractListModel
+class Q_CONNMAN_EXPORT TechnologyModel : public QAbstractListModel
 {
     Q_OBJECT;
     Q_DISABLE_COPY(TechnologyModel);

@@ -10,7 +10,10 @@
 #ifndef USERAGENT_H
 #define USERAGENT_H
 
-#include <networkmanager.h>
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/networkmanager.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
 
 struct ServiceRequestData
 {
@@ -20,7 +23,7 @@ struct ServiceRequestData
     QDBusMessage msg;
 };
 
-class UserAgent : public QObject
+class Q_CONNMAN_EXPORT UserAgent : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(UserAgent)
@@ -50,7 +53,7 @@ private:
     friend class AgentAdaptor;
 };
 
-class AgentAdaptor : public QDBusAbstractAdaptor
+class Q_CONNMAN_EXPORT AgentAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT;
     Q_CLASSINFO("D-Bus Interface", "net.connman.Agent");
@@ -71,5 +74,7 @@ public slots:
 private:
     UserAgent* m_userAgent;
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif // USERAGENT_H

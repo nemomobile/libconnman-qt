@@ -17,26 +17,34 @@
 #include <QtDBus/QtDBus>
 #include <QtDBus/QDBusObjectPath>
 
+#include <QtAddOnConnman/connman_global.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
+
 typedef QMap<QString, QString> StringMap;
-Q_DECLARE_METATYPE ( StringMap );
 
 // TODO: re-implement with better interface i.e. "const QString path() const" instead of objpath
 struct ConnmanObject {
     QDBusObjectPath objpath;
     QVariantMap properties;
 };
-Q_DECLARE_METATYPE ( ConnmanObject );
+
+typedef QList<ConnmanObject> ConnmanObjectList;
+
 QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanObject &obj);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanObject &obj);
 
-typedef QList<ConnmanObject> ConnmanObjectList;
-Q_DECLARE_METATYPE ( ConnmanObjectList );
+QT_END_NAMESPACE_CONNMAN
+
+Q_DECLARE_METATYPE(QtAddOn::Connman::StringMap)
+Q_DECLARE_METATYPE(QtAddOn::Connman::ConnmanObject)
+Q_DECLARE_METATYPE(QtAddOn::Connman::ConnmanObjectList)
 
 inline void registerCommonDataTypes() {
-  qDBusRegisterMetaType<StringMap>();
-  qDBusRegisterMetaType<ConnmanObject>();
-  qDBusRegisterMetaType<ConnmanObjectList>();
-  qRegisterMetaType<ConnmanObjectList>("ConnmanObjectList");
+  qDBusRegisterMetaType<QtAddOn::Connman::StringMap>();
+  qDBusRegisterMetaType<QtAddOn::Connman::ConnmanObject>();
+  qDBusRegisterMetaType<QtAddOn::Connman::ConnmanObjectList>();
+  qRegisterMetaType<QtAddOn::Connman::ConnmanObjectList>("ConnmanObjectList");
 }
 
 #endif //COMMONDBUSTYPES_H

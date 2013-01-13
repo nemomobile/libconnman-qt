@@ -20,10 +20,14 @@
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
 
+#include <QtAddOnConnman/connman_global.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
+
 /*
  * Proxy class for interface net.connman.Clock
  */
-class ClockProxy: public QDBusAbstractInterface
+class Q_CONNMAN_EXPORT ClockProxy: public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
@@ -53,9 +57,6 @@ Q_SIGNALS: // SIGNALS
     void PropertyChanged(const QString &in0, const QDBusVariant &in1);
 };
 
-namespace net {
-  namespace connman {
-    typedef ::ClockProxy Clock;
-  }
-}
+QT_END_NAMESPACE_CONNMAN
+
 #endif

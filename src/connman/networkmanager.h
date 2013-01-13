@@ -11,16 +11,19 @@
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
-#include "commondbustypes.h"
-
-#include "networktechnology.h"
-#include "networkservice.h"
 #include <QtDBus>
+
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/commondbustypes.h>
+#include <QtAddOnConnman/networktechnology.h>
+#include <QtAddOnConnman/networkservice.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
 
 class Manager;
 class NetworkManager;
 
-class NetworkManagerFactory
+class Q_CONNMAN_EXPORT NetworkManagerFactory
 {
 public:
     NetworkManagerFactory() {}
@@ -28,7 +31,7 @@ public:
     static NetworkManager* createInstance();
 };
 
-class NetworkManager : public QObject
+class Q_CONNMAN_EXPORT NetworkManager : public QObject
 {
     Q_OBJECT;
 
@@ -121,5 +124,7 @@ private slots:
 private:
     Q_DISABLE_COPY(NetworkManager);
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif //NETWORKMANAGER_H

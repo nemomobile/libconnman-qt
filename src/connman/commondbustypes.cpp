@@ -9,6 +9,8 @@
 
 #include "commondbustypes.h"
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 // Marshall the ConnmanObject data into a D-Bus argument
 QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanObject &obj)
 {
@@ -26,3 +28,5 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanObject &ob
     argument.endStructure();
     return argument;
 }
+
+QT_END_NAMESPACE_CONNMAN

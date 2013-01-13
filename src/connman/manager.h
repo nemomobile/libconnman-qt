@@ -19,12 +19,16 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
-#include "commondbustypes.h"
+
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/commondbustypes.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
 
 /*
  * Proxy class for interface net.connman.Manager
  */
-class Manager: public QDBusAbstractInterface
+class Q_CONNMAN_EXPORT Manager : public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
@@ -131,4 +135,6 @@ Q_SIGNALS: // SIGNALS
     void TechnologyRemoved(const QDBusObjectPath &technology);
 };
 
-#endif
+QT_END_NAMESPACE_CONNMAN
+
+#endif // MANAGER_H

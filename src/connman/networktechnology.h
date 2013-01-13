@@ -13,9 +13,13 @@
 
 #include <QtDBus>
 
+#include <QtAddOnConnman/connman_global.h>
+
 class NetConnmanTechnologyInterface;
 
-class NetworkTechnology : public QObject
+QT_BEGIN_NAMESPACE_CONNMAN
+
+class Q_CONNMAN_EXPORT NetworkTechnology : public QObject
 {
     Q_OBJECT;
 
@@ -60,5 +64,7 @@ private slots:
 private:
     Q_DISABLE_COPY(NetworkTechnology);
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif //NETWORKTECHNOLOGY_H

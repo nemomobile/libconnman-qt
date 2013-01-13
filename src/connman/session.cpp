@@ -13,6 +13,8 @@
  * Implementation of interface class Session
  */
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 Session::Session(const QString &path, QObject *parent)
     : QDBusAbstractInterface(staticConnmanService(), path, staticInterfaceName(), QDBusConnection::systemBus(), parent)
 {
@@ -23,3 +25,4 @@ Session::~Session()
 {
 }
 
+QT_END_NAMESPACE_CONNMAN

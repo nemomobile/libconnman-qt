@@ -13,12 +13,16 @@
 
 #include <QtDBus>
 
-#define CONNECT_TIMEOUT 180000 // user is supposed to provide input for unconfigured networks
-#define CONNECT_TIMEOUT_FAVORITE 60000
+#include <QtAddOnConnman/connman_global.h>
 
 class NetConnmanServiceInterface;
 
-class NetworkService : public QObject
+QT_BEGIN_NAMESPACE_CONNMAN
+
+#define CONNECT_TIMEOUT 180000 // user is supposed to provide input for unconfigured networks
+#define CONNECT_TIMEOUT_FAVORITE 60000
+
+class Q_CONNMAN_EXPORT NetworkService : public QObject
 {
     Q_OBJECT;
 
@@ -137,5 +141,7 @@ private slots:
 private:
     Q_DISABLE_COPY(NetworkService);
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif // NETWORKSERVICE_H

@@ -10,11 +10,14 @@
 #ifndef SESSIONAGENT_H
 #define SESSIONAGENT_H
 
-#include "manager.h"
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/manager.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
 
 class Session;
 
-class SessionAgent : public QObject
+class Q_CONNMAN_EXPORT SessionAgent : public QObject
 {
     Q_OBJECT
 
@@ -46,7 +49,7 @@ private:
     friend class SessionNotificationAdaptor;
 };
 
-class SessionNotificationAdaptor : public QDBusAbstractAdaptor
+class Q_CONNMAN_EXPORT SessionNotificationAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "net.connman.Notification")
@@ -61,5 +64,7 @@ public slots:
 private:
     SessionAgent* m_sessionAgent;
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif // USERAGENT_H

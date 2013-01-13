@@ -18,10 +18,14 @@
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
 
+#include <QtAddOnConnman/connman_global.h>
+
+QT_BEGIN_NAMESPACE_CONNMAN
+
 /*
  * Proxy class for interface net.connman.Session
  */
-class Session: public QDBusAbstractInterface
+class Q_CONNMAN_EXPORT Session: public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
@@ -57,7 +61,8 @@ public Q_SLOTS: // METHODS
     {
         return asyncCall(QLatin1String("Disconnect"));
     }
-
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif

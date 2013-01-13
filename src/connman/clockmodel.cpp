@@ -22,6 +22,8 @@
                     this, SLOT(setPropertyFinished(QDBusPendingCallWatcher*))); \
         }
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 ClockModel::ClockModel() :
     mClockProxy(0)
 {
@@ -169,3 +171,5 @@ void ClockModel::setTime(QTime time)
     quint64 secsSinceEpoch = (quint64)toDate.toTime_t();
     SET_CONNMAN_PROPERTY("Time", secsSinceEpoch);
 }
+
+QT_END_NAMESPACE_CONNMAN

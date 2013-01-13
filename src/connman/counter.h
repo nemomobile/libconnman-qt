@@ -15,9 +15,12 @@
 #include <QtDBus/QDBusAbstractAdaptor>
 #include <QtDBus/QDBusObjectPath>
 
-#include <networkmanager.h>
+#include <QtAddOnConnman/connman_global.h>
+#include <QtAddOnConnman/networkmanager.h>
 
-class Counter : public QObject
+QT_BEGIN_NAMESPACE_CONNMAN
+
+class Q_CONNMAN_EXPORT Counter : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Counter)
@@ -44,8 +47,7 @@ private:
 
 };
 
-
-class CounterAdaptor : public QDBusAbstractAdaptor
+class Q_CONNMAN_EXPORT CounterAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT;
     Q_CLASSINFO("D-Bus Interface", "net.connman.Counter");
@@ -63,5 +65,7 @@ public slots:
 private:
     Counter* m_counter;
 };
+
+QT_END_NAMESPACE_CONNMAN
 
 #endif // COUNTER_H

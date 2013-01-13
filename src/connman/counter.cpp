@@ -13,6 +13,8 @@
 
 #define COUNTER_PATH QLatin1String("/ConnectivityCounter")
 
+QT_BEGIN_NAMESPACE_CONNMAN
+
 Counter::Counter(QObject *parent) :
     QObject(parent),
     m_manager(NetworkManagerFactory::createInstance())
@@ -68,3 +70,4 @@ void CounterAdaptor::Usage(const QDBusObjectPath &service_path,
     }
 }
 
+QT_END_NAMESPACE_CONNMAN
