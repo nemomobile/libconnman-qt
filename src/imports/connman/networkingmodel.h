@@ -1,0 +1,102 @@
+/*
+ * Copyright © 2010, Intel Corporation.
+ * Copyright © 2012, Jolla.
+ *
+ * This program is licensed under the terms and conditions of the
+ * Apache License, version 2.0.  The full text of the Apache License is at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+
+#ifndef NETWORKINGMODEL_H
+#define NETWORKINGMODEL_H
+
+#include <QDBusAbstractAdaptor>
+
+#include <QtAddOnConnman/networkmanager.h>
+#include <QtAddOnConnman/networktechnology.h>
+#include <QtAddOnConnman/networkservice.h>
+
+QT_USE_NAMESPACE_CONNMAN
+
+struct ServiceReqData
+{
+    QVariantMap fields;
+    QDBusMessage reply;
+    QDBusMessage msg;
+};
+
+/*
+ * WARNING: this class is going to be deprecated. Use TechnologyModel and
+ *          UserAgent classes instead.
+ */
+class Q_CONNMAN_EXPORT NetworkingModel : public QObject
+{
+    Q_OBJECT;
+
+    Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged);
+    Q_PROPERTY(bool wifiPowered READ isWifiPowered WRITE setWifiPowered NOTIFY wifiPoweredChanged);
+    Q_PROPERTY(QList<QObject*> networks READ networks NOTIFY networksChanged);
+    Q_PROPERTY(NOTIFY scanRequestFinished);
+
+public:
+    NetworkingModel(QObject* parent=0);
+    virtual ~NetworkingModel();
+
+    bool isAvailable() const;
+
+    QList<QObject*> networks() const;
+    bool isWifiPowered() const;
+    void requestUserInput(ServiceReqData* data);
+    void reportError(const QString &error);
+
+public slots:
+    void setWifiPowered(const bool &wifiPowered);
+    void requestScan() const;
+    void sendUserReply(const QVariantMap &input);
+
+signals:
+    void availabilityChanged(bool available);
+    void wifiPoweredChanged(const bool &wifiPowered);
+    void networksChanged();
+    void technologiesChanged();
+    void userInputRequested(QVariantMap fields);
+    void errorReported(const QString &error);
+    void scanRequestFinished();
+
+private:
+    NetworkManager* m_manager;
+    NetworkTechnology* m_wifi;
+    ServiceReqData* m_req_data;
+
+private slots:
+    void updateTechnologies();
+    void managerAvailabilityChanged(bool available);
+
+private:
+    Q_DISABLE_COPY(NetworkingModel);
+};
+
+class Q_CONNMAN_EXPORT UserInputAgent : public QDBusAbstractAdaptor
+{
+    Q_OBJECT;
+    Q_CLASSINFO("D-Bus Interface", "net.connman.Agent");
+
+public:
+    UserInputAgent(NetworkingModel* parent);
+    virtual ~UserInputAgent();
+
+public slots:
+    void Release();
+    void ReportError(const QDBusObjectPath &service_path, const QString &error);
+    void RequestBrowser(const QDBusObjectPath &service_path, const QString &url);
+    Q_NOREPLY void RequestInput(const QDBusObjectPath &service_path,
+                                const QVariantMap &fields,
+                                const QDBusMessage &message);
+    void Cancel();
+
+private:
+    NetworkingModel* m_networkingmodel;
+};
+
+#endif //NETWORKINGMODEL_H
