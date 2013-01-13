@@ -1,15 +1,15 @@
-TARGET=ConnmanQtDeclarative
+TARGET = declarative_connman
 TEMPLATE = lib
-QT += declarative dbus
+QT += qml dbus
 CONFIG += plugin
 SOURCES = components.cpp networkingmodel.cpp technologymodel.cpp 
 HEADERS = components.h networkingmodel.h technologymodel.h 
 
 INCLUDEPATH += ../libconnman-qt
-LIBS += -L../libconnman-qt -lconnman-qt4
+LIBS += -L../libconnman-qt -lconnman-qt5
 
-target.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Connman
+target.path = $$[QT_INSTALL_QML]/MeeGo/Connman
 qmldir.files += qmldir
-qmldir.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Connman
+qmldir.path = $$[QT_INSTALL_QML]/MeeGo/Connman
 
 INSTALLS += target qmldir

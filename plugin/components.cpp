@@ -7,10 +7,14 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-#include "components.h"
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlComponent>
+#include <QtQml/QQmlContext>
 
 #include <networkservice.h>
 #include <clockmodel.h>
+
+#include "components.h"
 #include "networkingmodel.h"
 #include "technologymodel.h"
 #include "useragent.h"
@@ -27,10 +31,8 @@ void Components::registerTypes(const char *uri)
     qmlRegisterType<NetworkSession>(uri,0,2,"NetworkSession");
 }
 
-void Components::initializeEngine(QDeclarativeEngine *engine, const char *uri)
+void Components::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     Q_UNUSED(uri);
     Q_UNUSED(engine);
 }
-
-Q_EXPORT_PLUGIN(Components)

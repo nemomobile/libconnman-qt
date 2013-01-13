@@ -9,16 +9,15 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include <QtDeclarative/qdeclarative.h>
-#include <QtDeclarative/QDeclarativeExtensionPlugin>
+#include <QtQml/QQmlExtensionPlugin>
 
-class Components : public QDeclarativeExtensionPlugin
+class Components : public QQmlExtensionPlugin
 {
     Q_OBJECT
-
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
     void registerTypes(const char *uri);
-    void initializeEngine(QDeclarativeEngine *engine, const char *uri);
+    void initializeEngine(QQmlEngine *engine, const char *uri);
 };
 
 #endif // COMPONENTS_H

@@ -31,10 +31,6 @@ TechnologyModel::TechnologyModel(QAbstractListModel* parent)
     // set default value of the "name" property
     m_techname = QString("wifi");
 
-    QHash<int, QByteArray> roles;
-    roles[ServiceRole] = "networkService";
-    setRoleNames(roles);
-
     m_tech = m_manager->getTechnology(m_techname);
     if (m_tech) {
         CONNECT_TECHNOLOGY_SIGNALS(m_tech);
@@ -56,6 +52,13 @@ TechnologyModel::TechnologyModel(QAbstractListModel* parent)
 
 TechnologyModel::~TechnologyModel()
 {
+}
+
+QHash<int, QByteArray> TechnologyModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[ServiceRole] = "networkService";
+    return roles;
 }
 
 QVariant TechnologyModel::data(const QModelIndex &index, int role) const

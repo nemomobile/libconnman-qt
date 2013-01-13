@@ -1,20 +1,16 @@
-#include <QApplication>
-#include <QWidget>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
-#include <QGLWidget>
-#include <qdeclarative.h>
+#include <QGuiApplication>
+#include <QQuickView>
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+    QGuiApplication a(argc, argv);
 
-	QDeclarativeView *view = new QDeclarativeView;
-    view->setViewport(new QGLWidget);
-	view->setSource(QUrl::fromLocalFile("main.qml"));
-	view->setGeometry(0,0,800,480);
-	view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-	view->show();
+    QQuickView *view = new QQuickView;
+    view->setSource(QUrl::fromLocalFile("main.qml"));
+    view->setGeometry(0, 0, 800, 480);
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->show();
 
     return a.exec();
 }
