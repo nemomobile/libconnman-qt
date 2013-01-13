@@ -62,6 +62,6 @@ public slots:
 
 private:
     Counter* m_counter;
-    friend class CounterAdaptor;
 };
+
 #endif // COUNTER_H

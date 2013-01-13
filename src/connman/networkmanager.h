@@ -98,16 +98,16 @@ private:
 
     QDBusServiceWatcher *watcher;
 
-    static const QString State;
-    static const QString OfflineMode;
-    static const QString SessionMode;
+    static const QLatin1String State;
+    static const QLatin1String OfflineMode;
+    static const QLatin1String SessionMode;
 
     bool m_available;
 
 private slots:
-    void connectToConnman(QString = "");
-    void disconnectFromConnman(QString = "");
-    void connmanUnregistered(QString = "");
+    void connectToConnman();
+    void disconnectFromConnman();
+    void connmanUnregistered();
     void getPropertiesReply(QDBusPendingCallWatcher *call);
     void getTechnologiesReply(QDBusPendingCallWatcher *call);
     void getServicesReply(QDBusPendingCallWatcher *call);

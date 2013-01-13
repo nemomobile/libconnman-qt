@@ -32,9 +32,8 @@ SessionAgent::SessionAgent(const QString &path, QObject* parent) :
     agentPath(path),
     m_session(0)
 {
-    m_manager = new Manager("net.connman", "/", QDBusConnection::systemBus(), this);
-    const QString sessionmode = "SessionMode";
-    m_manager->SetProperty(sessionmode, QDBusVariant(true));
+    m_manager = new Manager(QLatin1String("net.connman"), QLatin1String("/"), QDBusConnection::systemBus(), this);
+    m_manager->SetProperty(QLatin1String("SessionMode"), QDBusVariant(true));
 }
 
 SessionAgent::~SessionAgent()
@@ -47,8 +46,8 @@ void SessionAgent::setAllowedBearers(const QStringList &bearers)
     if (!m_session)
         return;
     QVariantMap map;
-    map.insert("AllowedBearers",  qVariantFromValue(bearers));
-    m_session->Change("AllowedBearers",QDBusVariant(bearers));
+    map.insert(QLatin1String("AllowedBearers"),  qVariantFromValue(bearers));
+    m_session->Change(QLatin1String("AllowedBearers"),QDBusVariant(bearers));
 }
 
 void SessionAgent::setConnectionType(const QString &type)
@@ -56,8 +55,8 @@ void SessionAgent::setConnectionType(const QString &type)
     if (!m_session)
         return;
     QVariantMap map;
-    map.insert("ConnectionType",  qVariantFromValue(type));
-    m_session->Change("ConnectionType",QDBusVariant(type));
+    map.insert(QLatin1String("ConnectionType"),  qVariantFromValue(type));
+    m_session->Change(QLatin1String("ConnectionType"),QDBusVariant(type));
 }
 
 void SessionAgent::registerSession()

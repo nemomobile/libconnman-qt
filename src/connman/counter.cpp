@@ -11,7 +11,7 @@
 
 #include "counter.h"
 
-static const char COUNTER_PATH[] = "/ConnectivityCounter";
+#define COUNTER_PATH QLatin1String("/ConnectivityCounter")
 
 Counter::Counter(QObject *parent) :
     QObject(parent),

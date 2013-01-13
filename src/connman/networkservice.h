@@ -16,7 +16,7 @@
 #define CONNECT_TIMEOUT 180000 // user is supposed to provide input for unconfigured networks
 #define CONNECT_TIMEOUT_FAVORITE 60000
 
-class Service;
+class NetConnmanServiceInterface;
 
 class NetworkService : public QObject
 {
@@ -104,31 +104,31 @@ public slots:
     void setProxyConfig(const QVariantMap &proxy);
 
 private:
-    Service *m_service;
+    NetConnmanServiceInterface *m_service;
     QString m_path;
     QVariantMap m_propertiesCache;
 
     QDBusPendingCallWatcher *m_connectReqWatcher;
 
-    static const QString Name;
-    static const QString State;
-    static const QString Type;
-    static const QString Security;
-    static const QString Strength;
-    static const QString Error;
-    static const QString Favorite;
-    static const QString AutoConnect;
-    static const QString IPv4;
-    static const QString IPv4Config;
-    static const QString IPv6;
-    static const QString IPv6Config;
-    static const QString Nameservers;
-    static const QString NameserversConfig;
-    static const QString Domains;
-    static const QString DomainsConfig;
-    static const QString Proxy;
-    static const QString ProxyConfig;
-    static const QString Ethernet;
+    static const QLatin1String Name;
+    static const QLatin1String State;
+    static const QLatin1String Type;
+    static const QLatin1String Security;
+    static const QLatin1String Strength;
+    static const QLatin1String Error;
+    static const QLatin1String Favorite;
+    static const QLatin1String AutoConnect;
+    static const QLatin1String IPv4;
+    static const QLatin1String IPv4Config;
+    static const QLatin1String IPv6;
+    static const QLatin1String IPv6Config;
+    static const QLatin1String Nameservers;
+    static const QLatin1String NameserversConfig;
+    static const QLatin1String Domains;
+    static const QLatin1String DomainsConfig;
+    static const QLatin1String Proxy;
+    static const QLatin1String ProxyConfig;
+    static const QLatin1String Ethernet;
 
 private slots:
     void updateProperty(const QString &name, const QDBusVariant &value);

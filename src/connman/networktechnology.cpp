@@ -8,14 +8,14 @@
  *
  */
 
-#include "technology.h"
+#include "technology_interface.h"
 #include "networktechnology.h"
 #include "debug.h"
 
-const QString NetworkTechnology::Name("Name");
-const QString NetworkTechnology::Type("Type");
-const QString NetworkTechnology::Powered("Powered");
-const QString NetworkTechnology::Connected("Connected");
+const QLatin1String NetworkTechnology::Name("Name");
+const QLatin1String NetworkTechnology::Type("Type");
+const QLatin1String NetworkTechnology::Powered("Powered");
+const QLatin1String NetworkTechnology::Connected("Connected");
 
 NetworkTechnology::NetworkTechnology(const QString &path, const QVariantMap &properties, QObject* parent)
   : QObject(parent),
@@ -23,11 +23,12 @@ NetworkTechnology::NetworkTechnology(const QString &path, const QVariantMap &pro
     m_scanWatcher(NULL)
 {
     Q_ASSERT(!path.isEmpty());
-    m_technology = new Technology("net.connman", path, QDBusConnection::systemBus(), this);
+    m_technology = new NetConnmanTechnologyInterface(QLatin1String("net.connman"),
+                                                     path, QDBusConnection::systemBus(), this);
 
     if (!m_technology->isValid()) {
         pr_dbg() << "Invalid technology: " << path;
-        throw -1; // FIXME
+        //throw -1; // FIXME
     }
 
     m_propertiesCache = properties;

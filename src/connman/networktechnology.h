@@ -13,7 +13,7 @@
 
 #include <QtDBus>
 
-class Technology;
+class NetConnmanTechnologyInterface;
 
 class NetworkTechnology : public QObject
 {
@@ -44,14 +44,14 @@ signals:
     void scanFinished();
 
 private:
-    Technology *m_technology;
+    NetConnmanTechnologyInterface *m_technology;
     QVariantMap m_propertiesCache;
     QDBusPendingCallWatcher *m_scanWatcher;
 
-    static const QString Name;
-    static const QString Type;
-    static const QString Powered;
-    static const QString Connected;
+    static const QLatin1String Name;
+    static const QLatin1String Type;
+    static const QLatin1String Powered;
+    static const QLatin1String Connected;
 
 private slots:
     void propertyChanged(const QString &name, const QDBusVariant &value);

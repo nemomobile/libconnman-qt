@@ -8,7 +8,7 @@
  *
  */
 
-#include "service.h"
+#include "service_interface.h"
 #include "networkservice.h"
 #include "debug.h"
 
@@ -34,25 +34,25 @@ QVariantMap adaptToConnmanProperties(const QVariantMap &map)
     return buffer;
 }
 
-const QString NetworkService::Name("Name");
-const QString NetworkService::State("State");
-const QString NetworkService::Type("Type");
-const QString NetworkService::Security("Security");
-const QString NetworkService::Strength("Strength");
-const QString NetworkService::Error("Error");
-const QString NetworkService::Favorite("Favorite");
-const QString NetworkService::AutoConnect("AutoConnect");
-const QString NetworkService::IPv4("IPv4");
-const QString NetworkService::IPv4Config("IPv4.Configuration");
-const QString NetworkService::IPv6("IPv6");
-const QString NetworkService::IPv6Config("IPv6.Configuration");
-const QString NetworkService::Nameservers("Nameservers");
-const QString NetworkService::NameserversConfig("Nameservers.Configuration");
-const QString NetworkService::Domains("Domains");
-const QString NetworkService::DomainsConfig("Domains.Configuration");
-const QString NetworkService::Proxy("Proxy");
-const QString NetworkService::ProxyConfig("Proxy.Configuration");
-const QString NetworkService::Ethernet("Ethernet");
+const QLatin1String NetworkService::Name("Name");
+const QLatin1String NetworkService::State("State");
+const QLatin1String NetworkService::Type("Type");
+const QLatin1String NetworkService::Security("Security");
+const QLatin1String NetworkService::Strength("Strength");
+const QLatin1String NetworkService::Error("Error");
+const QLatin1String NetworkService::Favorite("Favorite");
+const QLatin1String NetworkService::AutoConnect("AutoConnect");
+const QLatin1String NetworkService::IPv4("IPv4");
+const QLatin1String NetworkService::IPv4Config("IPv4.Configuration");
+const QLatin1String NetworkService::IPv6("IPv6");
+const QLatin1String NetworkService::IPv6Config("IPv6.Configuration");
+const QLatin1String NetworkService::Nameservers("Nameservers");
+const QLatin1String NetworkService::NameserversConfig("Nameservers.Configuration");
+const QLatin1String NetworkService::Domains("Domains");
+const QLatin1String NetworkService::DomainsConfig("Domains.Configuration");
+const QLatin1String NetworkService::Proxy("Proxy");
+const QLatin1String NetworkService::ProxyConfig("Proxy.Configuration");
+const QLatin1String NetworkService::Ethernet("Ethernet");
 
 NetworkService::NetworkService(const QString &path, const QVariantMap &properties, QObject* parent)
   : QObject(parent),
@@ -60,11 +60,12 @@ NetworkService::NetworkService(const QString &path, const QVariantMap &propertie
     m_path(path)
 {
     Q_ASSERT(!m_path.isEmpty());
-    m_service = new Service("net.connman", m_path, QDBusConnection::systemBus(), this);
+    m_service = new NetConnmanServiceInterface(QLatin1String("net.connman"),
+                                               m_path, QDBusConnection::systemBus(), this);
 
     if (!m_service->isValid()) {
         pr_dbg() << "Invalid service: " << m_path;
-        throw -1; // FIXME
+        //throw -1; // FIXME
     }
 
     m_propertiesCache = properties;

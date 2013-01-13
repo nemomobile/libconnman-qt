@@ -10,7 +10,7 @@
 #include <debug.h>
 #include "useragent.h"
 
-static const char AGENT_PATH[] = "/ConnectivityUserAgent";
+#define AGENT_PATH QLatin1String("/ConnectivityUserAgent")
 
 UserAgent::UserAgent(QObject* parent) :
     QObject(parent),
@@ -41,8 +41,8 @@ void UserAgent::requestUserInput(ServiceRequestData* data)
     foreach (const QString &key, data->fields.keys()) {
         QVariantMap field;
 
-        field.insert("name", key);
-        field.insert("type", data->fields.value(key).toMap().value("Type"));
+        field.insert(QLatin1String("name"), key);
+        field.insert(QLatin1String("type"), data->fields.value(key).toMap().value(QLatin1String("Type")));
         fields.append(QVariant(field));
     }
 
@@ -72,8 +72,8 @@ void UserAgent::sendUserReply(const QVariantMap &input) {
         QDBusConnection::systemBus().send(reply);
     } else {
         QDBusMessage error = m_req_data->msg.createErrorReply(
-            QString("net.connman.Agent.Error.Canceled"),
-            QString("canceled by user"));
+            QLatin1String("net.connman.Agent.Error.Canceled"),
+            QLatin1String("canceled by user"));
         QDBusConnection::systemBus().send(error);
     }
     delete m_req_data;

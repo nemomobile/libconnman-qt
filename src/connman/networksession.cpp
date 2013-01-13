@@ -13,7 +13,7 @@
 NetworkSession::NetworkSession(QObject *parent) :
     QObject(parent),
     m_sessionAgent(0),
-    m_path("/ConnmanQmlSessionAgent")
+    m_path(QLatin1String("/ConnmanQmlSessionAgent"))
 {
 }
 
@@ -34,53 +34,53 @@ void NetworkSession::registerSession()
 
 QString NetworkSession::state() const
 {
-    return settingsMap.value("State").toString();
+    return settingsMap.value(QLatin1String("State")).toString();
 }
 
 QString NetworkSession::name() const
 {
-    return settingsMap.value("Name").toString();
+    return settingsMap.value(QLatin1String("Name")).toString();
 }
 
 QString NetworkSession::bearer() const
 {
-    return settingsMap.value("Bearer").toString();
+    return settingsMap.value(QLatin1String("Bearer")).toString();
 }
 
 QString NetworkSession::sessionInterface() const
 {
-    return settingsMap.value("Interface").toString();
+    return settingsMap.value(QLatin1String("Interface")).toString();
 }
 
 QVariantMap NetworkSession::ipv4() const
 {
-    return settingsMap.value("IPv4").toMap();
+    return settingsMap.value(QLatin1String("IPv4")).toMap();
 }
 
 QVariantMap NetworkSession::ipv6() const
 {
-    return settingsMap.value("IPv6").toMap();
+    return settingsMap.value(QLatin1String("IPv6")).toMap();
 }
 
 QStringList NetworkSession::allowedBearers() const
 {
-    return settingsMap.value("AllowedBearers").toStringList();
+    return settingsMap.value(QLatin1String("AllowedBearers")).toStringList();
 }
 
 QString NetworkSession::connectionType() const
 {
-    return settingsMap.value("ConnectionType").toString();
+    return settingsMap.value(QLatin1String("ConnectionType")).toString();
 }
 
 void NetworkSession::setAllowedBearers(const QStringList &bearers)
 {
-    settingsMap.insert("AllowedBearers",  qVariantFromValue(bearers));
+    settingsMap.insert(QLatin1String("AllowedBearers"),  qVariantFromValue(bearers));
     m_sessionAgent->setAllowedBearers(bearers);
 }
 
 void NetworkSession::setConnectionType(const QString &type)
 {
-    settingsMap.insert("ConnectionType",  qVariantFromValue(type));
+    settingsMap.insert(QLatin1String("ConnectionType"),  qVariantFromValue(type));
     m_sessionAgent->setConnectionType(type);
 }
 

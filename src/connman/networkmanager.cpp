@@ -22,12 +22,11 @@ NetworkManager* NetworkManagerFactory::createInstance()
     return staticInstance;
 }
 
-
 // NetworkManager implementation
 
-const QString NetworkManager::State("State");
-const QString NetworkManager::OfflineMode("OfflineMode");
-const QString NetworkManager::SessionMode("SessionMode");
+const QLatin1String NetworkManager::State("State");
+const QLatin1String NetworkManager::OfflineMode("OfflineMode");
+const QLatin1String NetworkManager::SessionMode("SessionMode");
 
 NetworkManager::NetworkManager(QObject* parent)
   : QObject(parent),
@@ -42,27 +41,26 @@ NetworkManager::NetworkManager(QObject* parent)
     registerCommonDataTypes();
 
 
-    watcher = new QDBusServiceWatcher("net.connman",QDBusConnection::systemBus(),
+    watcher = new QDBusServiceWatcher(QLatin1String("net.connman"), QDBusConnection::systemBus(),
             QDBusServiceWatcher::WatchForRegistration |
             QDBusServiceWatcher::WatchForUnregistration, this);
     connect(watcher, SIGNAL(serviceRegistered(QString)),
-            this, SLOT(connectToConnman(QString)));
+            this, SLOT(connectToConnman()));
     connect(watcher, SIGNAL(serviceUnregistered(QString)),
-            this, SLOT(connmanUnregistered(QString)));
+            this, SLOT(connmanUnregistered()));
 
+    m_available = QDBusConnection::systemBus().interface()->isServiceRegistered(QLatin1String("net.connman"));
 
-    m_available = QDBusConnection::systemBus().interface()->isServiceRegistered("net.connman");
-
-    if(m_available)
+    if (m_available)
         connectToConnman();
 }
 
 NetworkManager::~NetworkManager() {}
 
-void NetworkManager::connectToConnman(QString)
+void NetworkManager::connectToConnman()
 {
     disconnectFromConnman();
-    m_manager = new Manager("net.connman", "/",
+    m_manager = new Manager(QLatin1String("net.connman"), QLatin1String("/"),
             QDBusConnection::systemBus(), this);
 
     if (!m_manager->isValid()) {
@@ -104,7 +102,7 @@ void NetworkManager::connectToConnman(QString)
     }
 }
 
-void NetworkManager::disconnectFromConnman(QString)
+void NetworkManager::disconnectFromConnman()
 {
     if (m_manager) {
         delete m_manager;
@@ -114,7 +112,7 @@ void NetworkManager::disconnectFromConnman(QString)
 }
 
 
-void NetworkManager::connmanUnregistered(QString)
+void NetworkManager::connmanUnregistered()
 {
     disconnectFromConnman();
 

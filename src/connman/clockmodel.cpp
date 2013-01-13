@@ -9,14 +9,14 @@
 
 #include "clockmodel.h"
 
-#define CONNMAN_SERVICE "net.connman"
-#define CONNMAN_CLOCK_INTERFACE CONNMAN_SERVICE ".Clock"
+#define CONNMAN_SERVICE QLatin1String("net.connman")
+#define CONNMAN_CLOCK_INTERFACE CONNMAN_SERVICE QLatin1String(".Clock")
 
 #define SET_CONNMAN_PROPERTY(key, val) \
         if (!mClockProxy) { \
             qCritical("ClockModel: SetProperty: not connected to connman"); \
         } else { \
-            QDBusPendingReply<> reply = mClockProxy->SetProperty(key, QDBusVariant(val)); \
+            QDBusPendingReply<> reply = mClockProxy->SetProperty(QLatin1String(key), QDBusVariant(val)); \
             QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this); \
             connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), \
                     this, SLOT(setPropertyFinished(QDBusPendingCallWatcher*))); \
@@ -33,7 +33,7 @@ void ClockModel::connectToConnman()
     if (mClockProxy && mClockProxy->isValid())
         return;
 
-    mClockProxy = new ClockProxy(CONNMAN_SERVICE, "/", QDBusConnection::systemBus(), this);
+    mClockProxy = new ClockProxy(CONNMAN_SERVICE, QLatin1String("/"), QDBusConnection::systemBus(), this);
 
     if (!mClockProxy->isValid()) {
         qCritical("ClockModel: unable to connect to connman");
@@ -63,24 +63,24 @@ void ClockModel::getPropertiesFinished(QDBusPendingCallWatcher *call)
     } else {
         QVariantMap properties = reply.value();
 
-        Q_ASSERT(properties.contains("Timezone"));
-        Q_ASSERT(properties.value("Timezone").type() == QVariant::String);
-        mTimezone = properties.value("Timezone").toString();
+        Q_ASSERT(properties.contains(QLatin1String("Timezone")));
+        Q_ASSERT(properties.value(QLatin1String("Timezone")).type() == QVariant::String);
+        mTimezone = properties.value(QLatin1String("Timezone")).toString();
         emit timezoneChanged();
 
-        Q_ASSERT(properties.contains("TimezoneUpdates"));
-        Q_ASSERT(properties.value("TimezoneUpdates").type() == QVariant::String);
-        mTimezoneUpdates = properties.value("TimezoneUpdates").toString();
+        Q_ASSERT(properties.contains(QLatin1String("TimezoneUpdates")));
+        Q_ASSERT(properties.value(QLatin1String("TimezoneUpdates")).type() == QVariant::String);
+        mTimezoneUpdates = properties.value(QLatin1String("TimezoneUpdates")).toString();
         emit timezoneUpdatesChanged();
 
-        Q_ASSERT(properties.contains("TimeUpdates"));
-        Q_ASSERT(properties.value("TimeUpdates").type() == QVariant::String);
-        mTimeUpdates = properties.value("TimeUpdates").toString();
+        Q_ASSERT(properties.contains(QLatin1String("TimeUpdates")));
+        Q_ASSERT(properties.value(QLatin1String("TimeUpdates")).type() == QVariant::String);
+        mTimeUpdates = properties.value(QLatin1String("TimeUpdates")).toString();
         emit timeUpdatesChanged();
 
-        Q_ASSERT(properties.contains("Timeservers"));
-        Q_ASSERT(properties.value("Timeservers").type() == QVariant::StringList);
-        mTimeservers = properties.value("Timeservers").toStringList();
+        Q_ASSERT(properties.contains(QLatin1String("Timeservers")));
+        Q_ASSERT(properties.value(QLatin1String("Timeservers")).type() == QVariant::StringList);
+        mTimeservers = properties.value(QLatin1String("Timeservers")).toStringList();
         emit timeserversChanged();
     }
     call->deleteLater();
@@ -97,19 +97,19 @@ void ClockModel::setPropertyFinished(QDBusPendingCallWatcher *call)
 
 void ClockModel::propertyChanged(const QString &name, const QDBusVariant &value)
 {
-    if (name == "Timezone") {
+    if (name == QLatin1String("Timezone")) {
         Q_ASSERT(value.variant().type() == QVariant::String);
         mTimezone = value.variant().toString();
         emit timezoneChanged();
-    } else if (name == "TimezoneUpdates") {
+    } else if (name == QLatin1String("TimezoneUpdates")) {
         Q_ASSERT(value.variant().type() == QVariant::String);
         mTimezoneUpdates = value.variant().toString();
         emit timezoneUpdatesChanged();
-    } else if (name == "TimeUpdates") {
+    } else if (name == QLatin1String("TimeUpdates")) {
         Q_ASSERT(value.variant().type() == QVariant::String);
         mTimeUpdates = value.variant().toString();
         emit timeUpdatesChanged();
-    } else if (name == "Timeservers") {
+    } else if (name == QLatin1String("Timeservers")) {
         Q_ASSERT(value.variant().type() == QVariant::StringList);
         mTimeservers = value.variant().toStringList();
         emit timeserversChanged();
