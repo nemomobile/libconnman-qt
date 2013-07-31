@@ -348,7 +348,7 @@ void NetworkService::setPath(const QString &path)
             QDBusPendingReply<QVariantMap> reply = m_service->GetProperties();
             reply.waitForFinished();
             if (reply.isError()) {
-                qDebug() << Q_FUNC_INFO << reply.error().message();
+	        pr_dbg() << reply.error().message();
             } else {
                 m_propertiesCache = reply.value();
             }

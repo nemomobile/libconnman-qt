@@ -78,7 +78,7 @@ void UserAgent::requestTimeout()
     setConnectionRequestType("Clear");
     QDBusMessage &reply = requestMessage;
     if (!QDBusConnection::systemBus().send(reply)) {
-        qDebug() << "Could not queue message";
+        pr_dbg() << "Could not queue message";
     }
 }
 
@@ -137,7 +137,7 @@ void UserAgent::requestConnect(const QDBusMessage &msg)
     QDBusMessage error = msg.createReply(arguments);
 
     if (!QDBusConnection::systemBus().send(error)) {
-        qDebug() << "Could not queue message";
+        pr_dbg() << "Could not queue message";
     }
 
     if (connectionRequestType() == "Suppress") {
