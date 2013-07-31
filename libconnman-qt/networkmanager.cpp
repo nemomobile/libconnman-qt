@@ -61,7 +61,7 @@ NetworkManager::NetworkManager(QObject* parent)
     if(m_available)
         connectToConnman();
     else
-        qDebug() << "connman not AVAILABLE";
+        pr_dbg() << "connman not AVAILABLE";
 }
 
 NetworkManager::~NetworkManager()

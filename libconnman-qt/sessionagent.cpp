@@ -50,7 +50,7 @@ void SessionAgent::setAllowedBearers(const QStringList &bearers)
     // hope this is not a lengthy task
     reply.waitForFinished();
     if (reply.isError()) {
-        qDebug() << Q_FUNC_INFO << reply.error();
+        pr_dbg() << reply.error();
     }
 
 }
@@ -74,13 +74,13 @@ void SessionAgent::createSession()
             new SessionNotificationAdaptor(this);
             QDBusConnection::systemBus().unregisterObject(agentPath);
             if (!QDBusConnection::systemBus().registerObject(agentPath, this)) {
-                qDebug() << "Could not register agent object";
+	        pr_dbg() << "Could not register agent object";
             }
         } else {
-            qDebug() << "agentPath is not valid" << agentPath;
+            pr_dbg() << "agentPath is not valid" << agentPath;
         }
     } else {
-        qDebug() << Q_FUNC_INFO << "manager not valid";
+        pr_dbg() << "manager not valid";
     }
 }
 
@@ -120,7 +120,7 @@ void SessionAgent::onConnectFinished(QDBusPendingCallWatcher *call)
 {
   QDBusPendingReply<> reply = *call;
   if (reply.isError())
-    qDebug() << reply.error().message();
+    pr_dbg() << reply.error().message();
 
   call->deleteLater();
 }
