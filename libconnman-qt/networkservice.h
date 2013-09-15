@@ -102,6 +102,7 @@ public slots:
     void requestConnect();
     void requestDisconnect();
     void remove();
+    void clearPassphrase();
 
     void setAutoConnect(const bool autoconnect);
     void setIpv4Config(const QVariantMap &ipv4);
