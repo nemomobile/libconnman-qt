@@ -218,6 +218,11 @@ void NetworkService::remove()
     m_service->Remove();
 }
 
+void NetworkService::clearPassphrase()
+{
+    m_service->ClearProperty(QLatin1String("Passphrase"));
+}
+
 void NetworkService::setAutoConnect(const bool autoconnect)
 {
     // QDBusPendingReply<void> reply =
