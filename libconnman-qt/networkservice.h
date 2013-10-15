@@ -44,6 +44,7 @@ class NetworkService : public QObject
     Q_PROPERTY(QVariantMap ethernet READ ethernet NOTIFY ethernetChanged)
     Q_PROPERTY(bool roaming READ roaming NOTIFY roamingChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
+    Q_PROPERTY(QString interface READ interface NOTIFY interfaceChanged)
 
 public:
     NetworkService(const QString &path, const QVariantMap &properties, QObject* parent);
@@ -72,6 +73,7 @@ public:
     const QVariantMap proxyConfig() const;
     const QVariantMap ethernet() const;
     bool roaming() const;
+    QString interface() const;
 
     void setPath(const QString &path);
     void updateProperties(const QVariantMap &properties);
@@ -100,6 +102,7 @@ signals:
     void connectRequestFailed(const QString &error);
     void typeChanged(const QString &type);
     void roamingChanged(bool roaming);
+    void interfaceChanged(const QString &interface);
 
     void serviceConnectionStarted();
     void serviceDisconnectionStarted();
@@ -145,6 +148,7 @@ private:
     static const QString ProxyConfig;
     static const QString Ethernet;
     static const QString Roaming;
+    static const QString Interface;
     bool isConnected;
 
 private slots:

@@ -54,6 +54,7 @@ const QString NetworkService::Proxy("Proxy");
 const QString NetworkService::ProxyConfig("Proxy.Configuration");
 const QString NetworkService::Ethernet("Ethernet");
 const QString NetworkService::Roaming("Roaming");
+const QString NetworkService::Interface("Interface");
 
 NetworkService::NetworkService(const QString &path, const QVariantMap &properties, QObject* parent)
   : QObject(parent),
@@ -180,6 +181,11 @@ const QVariantMap NetworkService::ethernet() const
 bool NetworkService::roaming() const
 {
     return m_propertiesCache.value(Roaming).toBool();
+}
+
+QString NetworkService::interface() const
+{
+    return m_propertiesCache.value(Interface).toString();
 }
 
 void NetworkService::requestConnect()
@@ -329,6 +335,8 @@ void NetworkService::updateProperty(const QString &name, const QDBusVariant &val
         Q_EMIT typeChanged(tmp.toString());
     } else if (name == Roaming) {
         emit roamingChanged(tmp.toBool());
+    } else if (name == Interface) {
+        emit interfaceChanged(tmp.toString());
     }
 }
 
