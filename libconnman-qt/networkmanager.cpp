@@ -361,9 +361,7 @@ void NetworkManager::propertyChanged(const QString &name,
     if (name == State) {
         QString stateString = tmp.toString();
         emit stateChanged(stateString);
-        if (stateString == "ready" || stateString == "online") {
-            updateDefaultRoute();
-        }
+        updateDefaultRoute();
     } else if (name == OfflineMode) {
         emit offlineModeChanged(tmp.toBool());
     } else if (name == SessionMode) {
