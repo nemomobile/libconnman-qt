@@ -7,6 +7,12 @@
 #include <QtCore/QTimer>
 #include <QtTest/QSignalSpy>
 #include <QTest>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QCoreApplication>
+#define SET_MSG_HANDLER(handler) qInstallMessageHandler(handler) 
+#else
+#define SET_MSG_HANDLER(handler) qInstallMsgHandler(handler) 
+#endif
 
 #include "../libconnman-qt/commondbustypes.h"
 
@@ -62,7 +68,12 @@ public:
     MainObjectMock(const QString &serviceName, const QString &path);
 
 public:
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    static void msgHandler(QtMsgType type, const QMessageLogContext &context,
+            const QString &message);
+#else
     static void msgHandler(QtMsgType type, const char *message);
+#endif
 };
 
 class TestBase::SignalSpy : public QSignalSpy
@@ -91,9 +102,15 @@ inline QByteArray TestBase::notifySignal(const QObject &object, const char *prop
     Q_ASSERT(object.metaObject()->property(object.metaObject()->indexOfProperty(property))
             .hasNotifySignal());
 
-    return QByteArray(QTOSTRING(QSIGNAL_CODE)).append(object.metaObject()->property(
+    return QByteArray(QT_STRINGIFY(QSIGNAL_CODE)).append(object.metaObject()->property(
                 object.metaObject()->indexOfProperty(property)
-                ).notifySignal().signature());
+                ).notifySignal()
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+.methodSignature()
+#else
+.signature()
+#endif
+                );
 }
 
 inline bool TestBase::waitForSignal(QObject *object, const char *signal)
@@ -588,19 +605,29 @@ inline TestBase::MainObjectMock::MainObjectMock(const QString &serviceName, cons
     }
 }
 
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+inline void TestBase::MainObjectMock::msgHandler(QtMsgType type,
+        const QMessageLogContext &context, const QString &message)
+#else
 inline void TestBase::MainObjectMock::msgHandler(QtMsgType type, const char *message)
+#endif
 {
-    qInstallMsgHandler(0);
-    qt_message_output(type, QByteArray("MOCK   : ").append(message));
-    qInstallMsgHandler(msgHandler);
+    SET_MSG_HANDLER(0);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    qt_message_output(type, context, message);
+#else
+    qt_message_output(type, message);
+#endif
+    SET_MSG_HANDLER(msgHandler);
 }
 
 #define TEST_MAIN_WITH_MOCK(TestClass, MockClass)                            \
     int main(int argc, char *argv[])                                         \
     {                                                                        \
         if (argc == 2 && argv[1] == QLatin1String("--mock")) {               \
-            qInstallMsgHandler(Tests::TestBase::MainObjectMock::msgHandler); \
-            QApplication app(argc, argv);                                    \
+            SET_MSG_HANDLER(Tests::TestBase::MainObjectMock::msgHandler);    \
+            QCoreApplication app(argc, argv);                                \
                                                                              \
             qDebug("%s: starting...", Q_FUNC_INFO);                          \
                                                                              \
@@ -608,7 +635,7 @@ inline void TestBase::MainObjectMock::msgHandler(QtMsgType type, const char *mes
                                                                              \
             return app.exec();                                               \
         } else {                                                             \
-            QApplication app(argc, argv);                                    \
+            QCoreApplication app(argc, argv);                                \
                                                                              \
             TestClass test;                                                  \
                                                                              \

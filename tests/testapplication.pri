@@ -11,7 +11,7 @@ equals(QT_MAJOR_VERSION, 4): {
 }
 
 equals(QT_MAJOR_VERSION, 5):  {
-    LIBS += -l$$qtLibraryTarget(connman-qt5) -L$${OUT_PWD}/../libconnman-qt5
+    LIBS += -l$$qtLibraryTarget(connman-qt5) -L$${OUT_PWD}/../libconnman-qt
 }
 
 TARGET = $${pro_file_basename}.bin
