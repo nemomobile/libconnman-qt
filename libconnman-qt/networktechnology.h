@@ -72,6 +72,8 @@ Q_SIGNALS:
     void tetheringPassphraseChanged(const QString &passphrase);
     void pathChanged(const QString &path);
 
+    void tetheringClientConnected(const QVariantMap &client);
+    void tetheringClientDisconnected(const QVariantMap &client);
 private:
     NetConnmanTechnologyInterface *m_technology;
     QVariantMap m_propertiesCache;
@@ -94,6 +96,9 @@ private Q_SLOTS:
     void emitPropertyChange(const QString &name, const QVariant &value);
 
     void scanReply(QDBusPendingCallWatcher *call);
+
+    void onDhcpConnected(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname);
+    void onDhcpLeaseDeleted(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname);
 
 private:
     Q_DISABLE_COPY(NetworkTechnology)

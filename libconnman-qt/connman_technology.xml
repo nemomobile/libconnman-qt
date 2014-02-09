@@ -19,5 +19,19 @@
       <arg name="value" type="v"/>
     </signal>
 
+    <signal name="DhcpConnected" tp:name-for-bindings="Dhcp_Connected">
+      <arg name="aptype" type="s"/>
+      <arg name="ipaddr" type="s"/>
+      <arg name="macaddr" type="s"/>
+      <arg name="hostname" type="s"/>
+    </signal>
+
+    <signal name="DhcpLeaseDeleted" tp:name-for-bindings="DhcpLease_Deleted">
+      <arg name="aptype" type="s"/>
+      <arg name="ipaddr" type="s"/>
+      <arg name="macaddr" type="s"/>
+      <arg name="hostname" type="s"/>
+    </signal>
+
   </interface>
 </node>
