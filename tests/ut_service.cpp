@@ -3,6 +3,14 @@
 #include "../libconnman-qt/networkservice.h"
 #include "testbase.h"
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#define SkipSingle 0
+#define SkipAll 0
+#define QSKIP_PORTABLE(message, argument) QSKIP(message)
+#else
+#define QSKIP_PORTABLE(message, argument) QSKIP(message, argument)
+#endif
+
 namespace Tests {
 
 class UtService : public TestBase
@@ -198,7 +206,7 @@ void UtService::testPropertySpontaneousChange()
     Q_ASSERT(!qtProperty.isEmpty());
 
     if (property == QLatin1String("Type")) {
-        QSKIP("For some reason the property is matched with first letter small case in "
+        QSKIP_PORTABLE("For some reason the property is matched with first letter small case in "
                 "NetworkService::updateProperty() -> change would not be detected", SkipSingle);
     }
 

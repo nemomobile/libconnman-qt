@@ -23,10 +23,22 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5DBus)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Test)
 BuildRequires:  pkgconfig(dbus-1)
 
 %description
 This is a library for working with connman using Qt
+
+
+%package tests
+Summary:    Tests for connman-qt5
+Group:      Development/Libraries
+Requires:   %{name} = %{version}-%{release}
+Requires:   connman-qt5-declarative
+
+%description tests
+This package contains the test applications for testing libconnman-qt
 
 
 %package declarative
@@ -85,6 +97,12 @@ rm -rf %{buildroot}
 %{_libdir}/libconnman-qt5.so.*
 # >> files
 # << files
+
+%files tests
+%defattr(-,root,root,-)
+/opt
+# >> files tests
+# << files tests
 
 %files declarative
 %defattr(-,root,root,-)
