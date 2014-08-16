@@ -326,7 +326,7 @@ void TechnologyModel::finishedScan()
     NetworkTechnology *tech = qobject_cast<NetworkTechnology *>(sender());
     if (tech->type() != m_tech->type())
         return;
-
+    updateServiceList();
     Q_EMIT scanRequestFinished();
 
     if (m_scanning) {
