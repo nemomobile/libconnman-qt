@@ -156,8 +156,6 @@ void TechnologyModel::requestScan()
         m_tech->scan();
         m_scanning = true;
         Q_EMIT scanningChanged(m_scanning);
-        m_scanResultsReady = false;
-        Q_EMIT scanResultsReadyChanged(m_scanResultsReady);
     }
 }
 
@@ -337,6 +335,8 @@ void TechnologyModel::finishedScan()
     NetworkTechnology *tech = qobject_cast<NetworkTechnology *>(sender());
     if (tech->type() != m_tech->type())
         return;
+    m_scanResultsReady = false;
+    Q_EMIT scanResultsReadyChanged(m_scanResultsReady);
     Q_EMIT scanRequestFinished();
 
     if (m_scanning) {
