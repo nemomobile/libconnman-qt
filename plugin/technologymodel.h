@@ -33,6 +33,7 @@ class TechnologyModel : public QAbstractListModel
     Q_PROPERTY(bool scanning READ isScanning NOTIFY scanningChanged)
     Q_PROPERTY(bool changesInhibited READ changesInhibited WRITE setChangesInhibited NOTIFY changesInhibitedChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(bool scanResultsReady READ isScanResultsReady NOTIFY scanResultsReadyChanged)
 
 public:
     enum ItemRoles {
@@ -74,6 +75,7 @@ Q_SIGNALS:
     void changesInhibitedChanged(const bool &changesInhibited);
     void technologiesChanged();
     void countChanged();
+    void scanResultsReadyChanged(const bool &scanResultsReady);
 
     void scanRequestFinished();
 
@@ -85,6 +87,7 @@ private:
     bool m_scanning;
     bool m_changesInhibited;
     bool m_uneffectedChanges;
+    bool m_scanResultsReady;
     QHash<int, QByteArray> roleNames() const;
     void doUpdateTechnologies();
 
