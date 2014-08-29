@@ -18,7 +18,7 @@ TechnologyModel::TechnologyModel(QAbstractListModel* parent)
     m_scanning(false),
     m_changesInhibited(false),
     m_uneffectedChanges(false),
-    m_scanResultsReady(false)
+    m_scanResultsReady(true)
 {
     m_manager = NetworkManagerFactory::createInstance();
 
