@@ -93,56 +93,56 @@ NetworkService::~NetworkService() {}
 
 const QString NetworkService::name() const
 {
-    if (m_propertiesCache.contains(Name))
+    if (m_propertiesCache && m_propertiesCache.contains(Name))
         return m_propertiesCache.value(Name).toString();
     return QString();
 }
 
 const QString NetworkService::state() const
 {
-    if (m_propertiesCache.contains(State))
+    if (m_propertiesCache && m_propertiesCache.contains(State))
         return m_propertiesCache.value(State).toString();
     return QString();
 }
 
 const QString NetworkService::error() const
 {
-    if (m_propertiesCache.contains(Error))
+    if (m_propertiesCache && m_propertiesCache.contains(Error))
         return m_propertiesCache.value(Error).toString();
     return QString();
 }
 
 const QString NetworkService::type() const
 {
-    if (m_propertiesCache.contains(Type))
+    if (m_propertiesCache && m_propertiesCache.contains(Type))
         return m_propertiesCache.value(Type).toString();
     return QString();
 }
 
 const QStringList NetworkService::security() const
 {
-    if (m_propertiesCache.contains(Security))
+    if (m_propertiesCache && m_propertiesCache.contains(Security))
         return m_propertiesCache.value(Security).toStringList();
     return QStringList();
 }
 
 uint NetworkService::strength() const
 {
-    if (m_propertiesCache.contains(Strength))
+    if (m_propertiesCache && m_propertiesCache.contains(Strength))
         return m_propertiesCache.value(Strength).toUInt();
     return 0;
 }
 
 bool NetworkService::favorite() const
 {
-    if (m_propertiesCache.contains(Favorite))
+    if (m_propertiesCache && m_propertiesCache.contains(Favorite))
         return m_propertiesCache.value(Favorite).toBool();
     return false;
 }
 
 bool NetworkService::autoConnect() const
 {
-    if (m_propertiesCache.contains(AutoConnect))
+    if (m_propertiesCache && m_propertiesCache.contains(AutoConnect))
         return m_propertiesCache.value(AutoConnect).toBool();
     return false;
 }
@@ -154,91 +154,91 @@ const QString NetworkService::path() const
 
 const QVariantMap NetworkService::ipv4() const
 {
-    if (m_propertiesCache.contains(IPv4))
+    if (m_propertiesCache && m_propertiesCache.contains(IPv4))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(IPv4));
     return QVariantMap();
 }
 
 const QVariantMap NetworkService::ipv4Config() const
 {
-    if (m_propertiesCache.contains(IPv4Config))
+    if (m_propertiesCache && m_propertiesCache.contains(IPv4Config))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(IPv4Config));
     return QVariantMap();
 }
 
 const QVariantMap NetworkService::ipv6() const
 {
-    if (m_propertiesCache.contains(IPv6))
+    if (m_propertiesCache && m_propertiesCache.contains(IPv6))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(IPv6));
     return QVariantMap();
 }
 
 const QVariantMap NetworkService::ipv6Config() const
 {
-    if (m_propertiesCache.contains(IPv6Config))
+    if (m_propertiesCache && m_propertiesCache.contains(IPv6Config))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(IPv6Config));
     return QVariantMap();
 }
 
 const QStringList NetworkService::nameservers() const
 {
-    if (m_propertiesCache.contains(Nameservers))
+    if (m_propertiesCache && m_propertiesCache.contains(Nameservers))
         return m_propertiesCache.value(Nameservers).toStringList();
     return QStringList();
 }
 
 const QStringList NetworkService::nameserversConfig() const
 {
-    if (m_propertiesCache.contains(NameserversConfig))
+    if (m_propertiesCache && m_propertiesCache.contains(NameserversConfig))
         return m_propertiesCache.value(NameserversConfig).toStringList();
     return QStringList();
 }
 
 const QStringList NetworkService::domains() const
 {
-    if (m_propertiesCache.contains(Domains))
+    if (m_propertiesCache && m_propertiesCache.contains(Domains))
         return m_propertiesCache.value(Domains).toStringList();
     return QStringList();
 }
 
 const QStringList NetworkService::domainsConfig() const
 {
-    if (m_propertiesCache.contains(DomainsConfig))
+    if (m_propertiesCache && m_propertiesCache.contains(DomainsConfig))
         return m_propertiesCache.value(DomainsConfig).toStringList();
     return QStringList();
 }
 
 const QVariantMap NetworkService::proxy() const
 {
-    if (m_propertiesCache.contains(Proxy))
+    if (m_propertiesCache && m_propertiesCache.contains(Proxy))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(Proxy));
     return QVariantMap();
 }
 
 const QVariantMap NetworkService::proxyConfig() const
 {
-    if (m_propertiesCache.contains(ProxyConfig))
+    if (m_propertiesCache && m_propertiesCache.contains(ProxyConfig))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(ProxyConfig));
     return QVariantMap();
 }
 
 const QVariantMap NetworkService::ethernet() const
 {
-    if (m_propertiesCache.contains(Ethernet))
+    if (m_propertiesCache && m_propertiesCache.contains(Ethernet))
         return qdbus_cast<QVariantMap>(m_propertiesCache.value(Ethernet));
     return QVariantMap();
 }
 
 bool NetworkService::roaming() const
 {
-    if (m_propertiesCache.contains(Roaming))
+    if (m_propertiesCache && m_propertiesCache.contains(Roaming))
         return m_propertiesCache.value(Roaming).toBool();
     return false;
 }
 
 bool NetworkService::hidden() const
 {
-    if (m_propertiesCache.contains(Hidden))
+    if (m_propertiesCache && m_propertiesCache.contains(Hidden))
         return m_propertiesCache.value(Hidden).toBool();
     return false;
 }
@@ -599,7 +599,7 @@ void NetworkService::setPath(const QString &path)
 
 bool NetworkService::connected()
 {
-    if (m_propertiesCache.contains(State)) {
+    if (m_propertiesCache && m_propertiesCache.contains(State)) {
         QString state = m_propertiesCache.value(State).toString();
         if (state == "online" || state == "ready")
             return true;
@@ -609,14 +609,14 @@ bool NetworkService::connected()
 
 QStringList NetworkService::timeservers() const
 {
-    if (m_propertiesCache.contains(Timeservers))
+    if (m_propertiesCache && m_propertiesCache.contains(Timeservers))
         return m_propertiesCache.value(Timeservers).toStringList();
     return QStringList();
 }
 
 QStringList NetworkService::timeserversConfig() const
 {
-    if (m_propertiesCache.contains(TimeserversConfig))
+    if (m_propertiesCache && m_propertiesCache.contains(TimeserversConfig))
         return m_propertiesCache.value(TimeserversConfig).toStringList();
     return QStringList();
 }
@@ -629,28 +629,28 @@ void NetworkService::setTimeserversConfig(const QStringList &servers)
 
 const QString NetworkService::bssid()
 {
-    if (m_propertiesCache.contains(BSSID))
+    if (m_propertiesCache && m_propertiesCache.contains(BSSID))
         return m_propertiesCache.value(BSSID).toString();
     return QString();
 }
 
 quint32 NetworkService::maxRate()
 {
-    if (m_propertiesCache.contains(MaxRate))
+    if (m_propertiesCache && m_propertiesCache.contains(MaxRate))
         return m_propertiesCache.value(MaxRate).toUInt();
     return 0;
 }
 
 quint16 NetworkService::frequency()
 {
-    if (m_propertiesCache.contains(Frequency))
+    if (m_propertiesCache && m_propertiesCache.contains(Frequency))
         return m_propertiesCache.value(Frequency).toUInt();
     return 0;
 }
 
 const QString NetworkService::encryptionMode()
 {
-    if (m_propertiesCache.contains(EncryptionMode))
+    if (m_propertiesCache && m_propertiesCache.contains(EncryptionMode))
         return m_propertiesCache.value(EncryptionMode).toString();
     return QString();
 }

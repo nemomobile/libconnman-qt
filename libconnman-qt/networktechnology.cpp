@@ -96,7 +96,7 @@ void NetworkTechnology::getPropertiesFinished(QDBusPendingCallWatcher *call)
 
 const QString NetworkTechnology::name() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::Name))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::Name))
         return m_propertiesCache[NetworkTechnology::Name].toString();
     else
         return QString();
@@ -104,7 +104,7 @@ const QString NetworkTechnology::name() const
 
 const QString NetworkTechnology::type() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::Type))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::Type))
         return m_propertiesCache[NetworkTechnology::Type].toString();
     else
         return QString();
@@ -112,7 +112,7 @@ const QString NetworkTechnology::type() const
 
 bool NetworkTechnology::powered() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::Powered))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::Powered))
         return m_propertiesCache[NetworkTechnology::Powered].toBool();
     else
         return false;
@@ -120,7 +120,7 @@ bool NetworkTechnology::powered() const
 
 bool NetworkTechnology::connected() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::Connected))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::Connected))
         return m_propertiesCache[NetworkTechnology::Connected].toBool();
     else
         return false;
@@ -201,7 +201,7 @@ void NetworkTechnology::setPath(const QString &path)
 
 quint32 NetworkTechnology::idleTimeout() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::IdleTimeout))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::IdleTimeout))
         return m_propertiesCache[NetworkTechnology::IdleTimeout].toUInt();
     else
         return 0;
@@ -215,7 +215,7 @@ void NetworkTechnology::setIdleTimeout(quint32 timeout)
 
 bool NetworkTechnology::tethering() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::Tethering))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::Tethering))
         return m_propertiesCache[NetworkTechnology::Tethering].toBool();
     else
         return false;
@@ -230,7 +230,7 @@ void NetworkTechnology::setTethering(bool b)
 
 QString NetworkTechnology::tetheringId() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::TetheringIdentifier))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::TetheringIdentifier))
         return m_propertiesCache[NetworkTechnology::TetheringIdentifier].toString();
     else
         return QString();
@@ -244,7 +244,7 @@ void NetworkTechnology::setTetheringId(const QString &id)
 
 QString NetworkTechnology::tetheringPassphrase() const
 {
-    if (m_propertiesCache.contains(NetworkTechnology::TetheringPassphrase))
+    if (m_propertiesCache && m_propertiesCache.contains(NetworkTechnology::TetheringPassphrase))
         return m_propertiesCache[NetworkTechnology::TetheringPassphrase].toString();
     else
         return QString();
