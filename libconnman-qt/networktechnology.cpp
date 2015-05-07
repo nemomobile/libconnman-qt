@@ -71,6 +71,16 @@ void NetworkTechnology::init(const QString &path)
                 SIGNAL(PropertyChanged(const QString&, const QDBusVariant&)),
                 this,
                 SLOT(propertyChanged(const QString&, const QDBusVariant&)));
+
+        connect(m_technology,
+                SIGNAL(DhcpConnected(QString,QString,QString,QString)),
+                this,
+                SLOT(onDhcpConnected(QString,QString,QString,QString)));
+
+        connect(m_technology,
+                SIGNAL(DhcpLeaseDeleted(QString,QString,QString,QString)),
+                this,
+                SLOT(onDhcpLeaseDeleted(QString,QString,QString,QString)));
     }
 
 }
@@ -167,7 +177,12 @@ void NetworkTechnology::emitPropertyChange(const QString &name, const QVariant &
       Q_EMIT tetheringIdChanged(value.toString());
     } else if (name == TetheringPassphrase) {
       Q_EMIT tetheringPassphraseChanged(value.toString());
-    }
+    } /*else if (name == DhcpConnected) {
+        Q_EMIT  dhcpConnected(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname);
+    } else if (name == DhcpLeaseDeleted) {
+        Q_EMIT dhcpLeaseDeleted(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname);
+    }*/
+
 }
 
 void NetworkTechnology::propertyChanged(const QString &name, const QDBusVariant &value)
@@ -255,4 +270,24 @@ void NetworkTechnology::setTetheringPassphrase(const QString &pass)
 {
     if (m_technology)
         m_technology->SetProperty(TetheringPassphrase, QDBusVariant(QVariant(pass)));
+}
+
+void NetworkTechnology::onDhcpConnected(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname)
+{
+    QVariantMap map;
+    map.insert("type", aptype);
+    map.insert("ipaddr", ipaddr);
+    map.insert("macaddr", macaddr);
+    map.insert("hostname", hostname);
+    Q_EMIT tetheringClientConnected(map);
+}
+
+void NetworkTechnology::onDhcpLeaseDeleted(const QString &aptype, const QString &ipaddr, const QString &macaddr, const QString &hostname)
+{
+    QVariantMap map;
+    map.insert("type", aptype);
+    map.insert("ipaddr", ipaddr);
+    map.insert("macaddr", macaddr);
+    map.insert("hostname", hostname);
+    Q_EMIT tetheringClientDisconnected(map);
 }
