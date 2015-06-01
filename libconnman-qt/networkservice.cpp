@@ -70,14 +70,14 @@ const QString NetworkService::Hidden("Hidden");
 NetworkService::NetworkService(const QString &path, const QVariantMap &properties, QObject* parent)
   : QObject(parent),
     m_service(NULL),
-    m_path(path),
+    m_path(QString()),
     m_propertiesCache(properties),
     isConnected(false)
 {
     qRegisterMetaType<NetworkService *>();
 
     Q_ASSERT(!path.isEmpty());
-    reconnectServiceInterface();
+    setPath(path);
 }
 
 NetworkService::NetworkService(QObject* parent)
@@ -554,7 +554,7 @@ void NetworkService::getPropertiesFinished(QDBusPendingCallWatcher *call)
     if (!reply.isError())
         updateProperties(reply.value());
     else
-        qDebug() << reply.error().message();
+        qDebug() << reply.error().message() << "for" << m_path;
     Q_EMIT propertiesReady();
 }
 
@@ -577,24 +577,30 @@ void NetworkService::updateProperties(const QVariantMap &properties)
 
 void NetworkService::setPath(const QString &path)
 {
-    if (path == m_path)
+    if (path == m_path || path.isEmpty())
         return;
+
+    bool initialPath = (m_path.isEmpty() && path != QStringLiteral("/"));
+// the / path is a special case used internally for empty defaultRoute
 
     m_path = path;
     emit pathChanged(m_path);
 
-    resetProperties();
+    if (!initialPath)
+        resetProperties();
 
     reconnectServiceInterface();
 
     if (!m_service || !m_service->isValid())
         return;
 
-    QDBusPendingReply<QVariantMap> reply = m_service->GetProperties();
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
+    if (path != QStringLiteral("/")) {
+        QDBusPendingReply<QVariantMap> reply = m_service->GetProperties();
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
 
-    connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-            this, SLOT(getPropertiesFinished(QDBusPendingCallWatcher*)));
+        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                this, SLOT(getPropertiesFinished(QDBusPendingCallWatcher*)));
+    }
 }
 
 bool NetworkService::connected()
